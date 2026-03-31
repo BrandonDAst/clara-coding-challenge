@@ -3,14 +3,14 @@ export interface Root {
   symbol: string;
   name: string;
   web_slug: string;
-  asset_platform_id?: string;
+  asset_platform_id: string | null;
   platforms: Platforms;
   detail_platforms: DetailPlatforms;
   block_time_in_minutes: number;
-  hashing_algorithm?: string;
+  hashing_algorithm?: string | null;
   categories: string[];
   preview_listing: boolean;
-  public_notice?: string;
+  public_notice?: string | null;
   additional_notices: unknown[];
   description: Description;
   links: Links;
@@ -32,7 +32,7 @@ type Platforms = Record<string, string | null>;
 type DetailPlatforms = Record<
   string,
   {
-    decimal_place: number;
+    decimal_place: number | null;
     contract_address: string;
     geckoterminal_url?: string;
   }

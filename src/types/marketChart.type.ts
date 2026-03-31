@@ -1,5 +1,7 @@
-export interface Root {
-  prices: number[][];
-  market_caps: number[][];
-  total_volumes: number[][];
+export type MarketChartPoint = [timestampMs: number, value: number];
+
+export interface MarketChart {
+  prices: MarketChartPoint[];
+  market_caps: MarketChartPoint[];
+  total_volumes: MarketChartPoint[];
 }
