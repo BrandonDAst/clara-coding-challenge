@@ -1,5 +1,6 @@
 import { formatMarketCap, formatPercent, formatPrice } from "@/lib/formatter";
 import { CoinMarket } from "@/types/coinMarket.type";
+import Image from "next/image";
 import { SparklineChart } from "./SparklineChart";
 
 interface MarketTableRowProps {
@@ -41,11 +42,12 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
       {/* Name + Icon */}
       <td className="min-w-0 max-w-38 px-2 py-3.5 sm:px-4 sm:max-w-none">
         <div className="flex items-center gap-2 min-w-0 sm:gap-3">
-          <img
+          <Image
             src={coin.image}
             alt={`${coin.name} logo`}
-            width={24}
-            height={24}
+            width={28}
+            height={28}
+            sizes="28px"
             className="size-6 shrink-0 rounded-full sm:size-7"
           />
           <div className="min-w-0">
