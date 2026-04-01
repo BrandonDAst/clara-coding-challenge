@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Clara Market Dashboard
+
+A responsive cryptocurrency market dashboard built with Next.js, TypeScript, and TanStack Query. Displays real-time data for the top 20 cryptocurrencies and allows deep exploration of individual assets.
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 20 LTS or higher
+- npm 10+
+
+### Installation
+
+```bash
+git clone https://github.com/brandondast/clara-coding-challenge.git
+cd clara-coding-challenge
+npm install
+```
+
+### Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Technical Decisions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Framework and deployment.** Next.js 14 with the App Router was chosen over a plain Vite + React setup for two reasons: the App Router's file-based routing scales cleanly as the app grows, and Next.js is the natural fit for Vercel. Vercel was the deployment target from the start.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Data fetching and caching strategy.** TanStack Query was chosen over SWR for its finer control over retry logic — specifically, the ability to discriminate between error types and skip retries entirely on `429` responses from CoinGecko's free tier.
 
-## Deploy on Vercel
+**TypeScript.** Types are derived directly from the CoinGecko API response shapes so they match the actual structure the API returns.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Rendering performance — SVG sparklines over Recharts.** The market table renders 20 rows simultaneously, each with a 7-day sparkline. Mounting 20 full `Recharts` instances would create significant overhead. Instead, the sparkline is a pure SVG component that takes a `number[]` array and computes a polyline and gradient fill directly, with no library overhead. Recharts is reserved for the detail modal's full price history chart, where its interactivity is actually needed.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Modal accessibility.** The detail modal is built without a UI library dependency. Focus management, scroll lock, ESC dismissal, and all ARIA attributes are handled explicitly. This was a deliberate choice to keep the dependency footprint small and to make the accessibility intent transparent to code reviewers.
+
+---
+
+## How I Used AI Tools
+
+I used **Claude** (Anthropic) as a collaborative tool throughout this challenge, treating it as a pair-programmer rather than a code generator. The workflow was iterative: I directed the overall architecture — folder structure, hook boundaries, stale time strategy, accessibility requirements — and used Claude to implement the initial versions of each layer. The types file was a key example: Claude generated the base interfaces from the CoinGecko API shape, and I reviewed and corrected the `ath_date` / `atl_date` typing (which the API returns as `Record<string, ISODateString>`, not a plain string) and added the `isCoinGeckoError` type guard which was missing from the first pass. The `useSort` and `useSearch` hooks were generated correctly on the first pass and needed no corrections. In general, AI was most valuable for reducing boilerplate on well-understood patterns (formatters, query keys, Recharts setup) and most in need of review on accessibility semantics and nuanced TypeScript typing.
+
+---
+
+## Live Demo
+
+[https://clara-coding-challenge.vercel.app/p](https://clara-coding-challenge.vercel.app/)
