@@ -1,3 +1,5 @@
+import { ISODateString } from "./coinGecko";
+
 export interface Root {
   id: string;
   symbol: string;
@@ -69,26 +71,26 @@ export interface CoinDetailImage {
 }
 
 export interface MarketData {
-  current_price: CurrencyValues;
+  current_price: LocalizedNumber;
   total_value_locked: TotalValueLocked | null;
   mcap_to_tvl_ratio: number | null;
   fdv_to_tvl_ratio: number | null;
   roi: Roi | null;
-  ath: CurrencyValues;
-  ath_change_percentage: CurrencyValues;
-  ath_date: CurrencyDates;
-  atl: CurrencyValues;
-  atl_change_percentage: CurrencyValues;
-  atl_date: CurrencyDates;
-  market_cap: CurrencyValues;
+  ath: LocalizedNumber;
+  ath_change_percentage: LocalizedNumber;
+  ath_date: LocalizedDate;
+  atl: LocalizedNumber;
+  atl_change_percentage: LocalizedNumber;
+  atl_date: LocalizedDate;
+  market_cap: LocalizedNumber;
   market_cap_rank: number;
   outstanding_token_value_usd: number | null;
   market_cap_rank_with_rehypothecated: number;
-  fully_diluted_valuation: CurrencyValues;
+  fully_diluted_valuation: LocalizedNumber;
   market_cap_fdv_ratio: number;
-  total_volume: CurrencyValues;
-  high_24h: CurrencyValues;
-  low_24h: CurrencyValues;
+  total_volume: LocalizedNumber;
+  high_24h: LocalizedNumber;
+  low_24h: LocalizedNumber;
   price_change_24h: number;
   price_change_percentage_24h: number;
   price_change_percentage_7d: number;
@@ -99,17 +101,17 @@ export interface MarketData {
   price_change_percentage_1y: number;
   market_cap_change_24h: number;
   market_cap_change_percentage_24h: number;
-  price_change_24h_in_currency: CurrencyValues;
-  price_change_percentage_1h_in_currency: CurrencyValues;
-  price_change_percentage_24h_in_currency: CurrencyValues;
-  price_change_percentage_7d_in_currency: CurrencyValues;
-  price_change_percentage_14d_in_currency: CurrencyValues;
-  price_change_percentage_30d_in_currency: CurrencyValues;
-  price_change_percentage_60d_in_currency: CurrencyValues;
-  price_change_percentage_200d_in_currency: CurrencyValues;
-  price_change_percentage_1y_in_currency: CurrencyValues;
-  market_cap_change_24h_in_currency: CurrencyValues;
-  market_cap_change_percentage_24h_in_currency: CurrencyValues;
+  price_change_24h_in_currency: LocalizedNumber;
+  price_change_percentage_1h_in_currency: LocalizedNumber;
+  price_change_percentage_24h_in_currency: LocalizedNumber;
+  price_change_percentage_7d_in_currency: LocalizedNumber;
+  price_change_percentage_14d_in_currency: LocalizedNumber;
+  price_change_percentage_30d_in_currency: LocalizedNumber;
+  price_change_percentage_60d_in_currency: LocalizedNumber;
+  price_change_percentage_200d_in_currency: LocalizedNumber;
+  price_change_percentage_1y_in_currency: LocalizedNumber;
+  market_cap_change_24h_in_currency: LocalizedNumber;
+  market_cap_change_percentage_24h_in_currency: LocalizedNumber;
   total_supply: number;
   max_supply: number | null;
   max_supply_infinite: boolean;
@@ -150,133 +152,11 @@ export interface ProjectImage {
   large: string;
 }
 
-interface CurrencyValues {
-  aed: number;
-  ars: number;
-  aud: number;
-  bch: number;
-  bdt: number;
-  bhd: number;
-  bmd: number;
-  bnb: number;
-  brl: number;
-  btc: number;
-  cad: number;
-  chf: number;
-  clp: number;
-  cny: number;
-  czk: number;
-  dkk: number;
-  dot: number;
-  eos: number;
-  eth: number;
-  eur: number;
-  gbp: number;
-  gel: number;
-  hkd: number;
-  huf: number;
-  idr: number;
-  ils: number;
-  inr: number;
-  jpy: number;
-  krw: number;
-  kwd: number;
-  lkr: number;
-  ltc: number;
-  mmk: number;
-  mxn: number;
-  myr: number;
-  ngn: number;
-  nok: number;
-  nzd: number;
-  php: number;
-  pkr: number;
-  pln: number;
-  rub: number;
-  sar: number;
-  sek: number;
-  sgd: number;
-  sol: number;
-  thb: number;
-  try: number;
-  twd: number;
-  uah: number;
-  usd: number;
-  vef: number;
-  vnd: number;
-  xag: number;
-  xau: number;
-  xdr: number;
-  xlm: number;
-  xrp: number;
-  yfi: number;
-  zar: number;
-  bits: number;
-  link: number;
-  sats: number;
-}
-interface CurrencyDates {
-  aed: string;
-  ars: string;
-  aud: string;
-  bch: string;
-  bdt: string;
-  bhd: string;
-  bmd: string;
-  bnb: string;
-  brl: string;
-  btc: string;
-  cad: string;
-  chf: string;
-  clp: string;
-  cny: string;
-  czk: string;
-  dkk: string;
-  dot: string;
-  eos: string;
-  eth: string;
-  eur: string;
-  gbp: string;
-  gel: string;
-  hkd: string;
-  huf: string;
-  idr: string;
-  ils: string;
-  inr: string;
-  jpy: string;
-  krw: string;
-  kwd: string;
-  lkr: string;
-  ltc: string;
-  mmk: string;
-  mxn: string;
-  myr: string;
-  ngn: string;
-  nok: string;
-  nzd: string;
-  php: string;
-  pkr: string;
-  pln: string;
-  rub: string;
-  sar: string;
-  sek: string;
-  sgd: string;
-  sol: string;
-  thb: string;
-  try: string;
-  twd: string;
-  uah: string;
-  usd: string;
-  vef: string;
-  vnd: string;
-  xag: string;
-  xau: string;
-  xdr: string;
-  xlm: string;
-  xrp: string;
-  yfi: string;
-  zar: string;
-  bits: string;
-  link: string;
-  sats: string;
-}
+/**
+ * CoinGecko returns localized numbers as an object keyed by currency code.
+ * We only request USD so we always access ["usd"].
+ * Using Record<string, number> is accurate and avoids hardcoding every currency.
+ */
+export type LocalizedNumber = Record<string, number>;
+
+export type LocalizedDate = Record<string, ISODateString>;

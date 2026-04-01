@@ -1,3 +1,5 @@
+import { ISODateString } from "./coinGecko";
+
 export type Root = CoinMarket[];
 
 export interface CoinMarket {
@@ -8,7 +10,7 @@ export interface CoinMarket {
   current_price: number;
   market_cap: number;
   market_cap_rank: number;
-  fully_diluted_valuation: number;
+  fully_diluted_valuation: number | null;
   total_volume: number;
   high_24h: number;
   low_24h: number;
@@ -17,16 +19,16 @@ export interface CoinMarket {
   market_cap_change_24h: number;
   market_cap_change_percentage_24h: number;
   circulating_supply: number;
-  total_supply: number;
+  total_supply: number | null;
   max_supply: number | null;
   ath: number;
   ath_change_percentage: number;
-  ath_date: string;
+  ath_date: ISODateString;
   atl: number;
   atl_change_percentage: number;
-  atl_date: string;
+  atl_date: ISODateString;
   roi: Roi | null;
-  last_updated: string;
+  last_updated: ISODateString;
   sparkline_in_7d: SparklineIn7d;
 }
 
