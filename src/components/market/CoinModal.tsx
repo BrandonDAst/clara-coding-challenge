@@ -99,7 +99,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
                 >
                   {coin.name}
                 </h2>
-                <p className="text-xs text-zinc-500 uppercase tracking-wider">
+                <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
                   {coin.symbol}
                 </p>
               </div>

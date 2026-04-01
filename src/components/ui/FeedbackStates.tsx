@@ -102,7 +102,7 @@ export function EmptyState({ query }: EmptyStateProps) {
       <p className="text-sm font-mono font-medium text-zinc-300">
         No results for &ldquo;{query}&rdquo;
       </p>
-      <p className="text-xs text-zinc-500 mt-1">
+      <p className="text-xs font-mono text-zinc-500 mt-1">
         Try searching by full name or ticker symbol
       </p>
     </div>
