@@ -1,4 +1,7 @@
+"use client";
+
 import { useCoinDetail } from "@/hooks/useCoinDetail";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useMarketChart } from "@/hooks/useMarketChart";
 import { formatDate, formatMarketCap, formatPrice } from "@/lib/formatter";
 import { CoinMarket } from "@/types/coinMarket.type";
@@ -14,6 +17,8 @@ interface CoinDetailModalProps {
 export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
   const isOpen = Boolean(coin);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const modalPanelRef = useRef<HTMLDivElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   const { data: detail, isLoading: detailLoading } = useCoinDetail({
     coinId: coin?.id,
@@ -23,12 +28,19 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
     coinId: coin?.id,
   });
 
-  // Focus close button when modal opens
+  useFocusTrap(modalPanelRef, isOpen);
+
   useEffect(() => {
-    if (isOpen) {
-      closeButtonRef.current?.focus();
+    if (isOpen && coin) {
+      if (!returnFocusRef.current) {
+        returnFocusRef.current = document.activeElement as HTMLElement;
+      }
+      requestAnimationFrame(() => closeButtonRef.current?.focus());
+    } else {
+      returnFocusRef.current?.focus?.();
+      returnFocusRef.current = null;
     }
-  }, [isOpen]);
+  }, [isOpen, coin]);
 
   // Close on Escape key
   useEffect(() => {
@@ -74,6 +86,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
         "
       >
         <div
+          ref={modalPanelRef}
           className="
             relative w-full max-w-2xl max-h-[90vh] overflow-y-auto
             bg-[#0f1117] border border-white/10 rounded-2xl shadow-2xl
@@ -99,20 +112,21 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
                 >
                   {coin.name}
                 </h2>
-                <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
+                <p className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
                   {coin.symbol}
                 </p>
               </div>
             </div>
 
             <button
+              type="button"
               ref={closeButtonRef}
               onClick={onClose}
               aria-label="Close detail panel"
               className="
                 shrink-0 w-8 h-8 rounded-lg flex items-center justify-center
                 text-zinc-400 hover:text-zinc-100 hover:bg-white/10
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
                 transition-colors duration-150
               "
             >
@@ -184,7 +198,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
                   key={label}
                   className="rounded-lg bg-white/5 border border-white/5 px-3 py-3"
                 >
-                  <p className="text-xs font-mono text-zinc-500 mb-1">
+                  <p className="text-xs font-mono text-zinc-400 mb-1">
                     {label}
                   </p>
                   <p className="text-sm font-mono font-semibold text-zinc-100 tabular-nums">
@@ -197,7 +211,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
                     )}
                   </p>
                   {sub && (
-                    <p className="text-xs font-mono text-zinc-600 mt-0.5">
+                    <p className="text-xs font-mono text-zinc-500 mt-0.5">
                       {sub}
                     </p>
                   )}
@@ -207,7 +221,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
 
             {/* Price history chart */}
             <div>
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500 mb-3">
+              <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400 mb-3">
                 Price — last 7 days
               </h3>
               <PriceHistoryChart data={chartData} isLoading={chartLoading} />
@@ -216,7 +230,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
             {/* Description */}
             {(detailLoading || detail?.description?.en) && (
               <div>
-                <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500 mb-2">
+                <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400 mb-2">
                   About
                 </h3>
                 {detailLoading ? (
