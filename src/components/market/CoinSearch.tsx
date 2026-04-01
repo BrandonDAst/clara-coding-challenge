@@ -11,7 +11,7 @@ export function CoinSearch({ value, onChange, resultCount }: CoinSearchProps) {
     <div className="relative w-full max-w-sm">
       {/* Search icon */}
       <span
-        className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none"
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 pointer-events-none"
         aria-hidden="true"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -34,8 +34,8 @@ export function CoinSearch({ value, onChange, resultCount }: CoinSearchProps) {
         className="
           w-full pl-9 pr-4 py-2.5 rounded-lg text-sm font-mono
           bg-white/5 border border-white/10
-          text-zinc-100 placeholder-zinc-500
-          focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50
+          text-zinc-100 placeholder:text-zinc-400
+          focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400/80
           transition-all duration-150
         "
       />

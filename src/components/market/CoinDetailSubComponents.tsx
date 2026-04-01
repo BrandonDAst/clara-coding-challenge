@@ -2,7 +2,7 @@
 
 import { formatPrice } from "@/lib/formatter";
 import { ChartDataPoint } from "@/types/marketChart.type";
-import { useState } from "react";
+import { useId, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -41,6 +41,8 @@ function ChartTooltip({
 }
 
 export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
+  const summaryId = useId();
+
   if (isLoading) {
     return (
       <div
@@ -56,50 +58,61 @@ export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
     data.length >= 2 ? data[data.length - 1].price >= data[0].price : true;
   const color = isPositive ? "#10b981" : "#ef4444";
 
+  const tickFill = "#a1a1aa";
+
+  const trendSummary = isPositive
+    ? "Overall price increased over the last 7 days."
+    : "Overall price decreased over the last 7 days.";
+
   return (
-    <div aria-label="7-day price history chart">
-      <ResponsiveContainer width="100%" height={192}>
-        <AreaChart
-          data={data}
-          margin={{ top: 4, right: 4, bottom: 0, left: 0 }}
-        >
-          <defs>
-            <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={color} stopOpacity={0.2} />
-              <stop offset="100%" stopColor={color} stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 8, fill: "#71717a" }}
-            tickLine={false}
-            axisLine={false}
-            interval="preserveStartEnd"
-            fontFamily="var(--font-mono)"
-          />
-          <YAxis
-            domain={["auto", "auto"]}
-            tick={{ fontSize: 8, fill: "#71717a" }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(v: number) =>
-              v >= 1000 ? `$${(v / 1000).toFixed(1)}k` : `$${v.toFixed(2)}`
-            }
-            width={64}
-            fontFamily="var(--font-mono)"
-          />
-          <Tooltip content={<ChartTooltip />} />
-          <Area
-            type="monotone"
-            dataKey="price"
-            stroke={color}
-            strokeWidth={2}
-            fill="url(#priceGradient)"
-            dot={false}
-            activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+    <div role="group" aria-describedby={summaryId}>
+      <p id={summaryId} className="sr-only">
+        {trendSummary}
+      </p>
+      <div aria-hidden="true">
+        <ResponsiveContainer width="100%" height={192}>
+          <AreaChart
+            data={data}
+            margin={{ top: 4, right: 4, bottom: 0, left: 0 }}
+          >
+            <defs>
+              <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.2} />
+                <stop offset="100%" stopColor={color} stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis
+              dataKey="date"
+              tick={{ fontSize: 8, fill: tickFill }}
+              tickLine={false}
+              axisLine={false}
+              interval="preserveStartEnd"
+              fontFamily="var(--font-mono)"
+            />
+            <YAxis
+              domain={["auto", "auto"]}
+              tick={{ fontSize: 8, fill: tickFill }}
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(v: number) =>
+                v >= 1000 ? `$${(v / 1000).toFixed(1)}k` : `$${v.toFixed(2)}`
+              }
+              width={64}
+              fontFamily="var(--font-mono)"
+            />
+            <Tooltip content={<ChartTooltip />} />
+            <Area
+              type="monotone"
+              dataKey="price"
+              stroke={color}
+              strokeWidth={2}
+              fill="url(#priceGradient)"
+              dot={false}
+              activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
@@ -125,7 +138,7 @@ export function CoinDescription({ description }: CoinDescriptionProps) {
 
   if (!cleaned.trim()) {
     return (
-      <p className="text-sm font-mono text-zinc-500 italic">
+      <p className="text-sm font-mono text-zinc-400 italic">
         No description available.
       </p>
     );
@@ -137,13 +150,14 @@ export function CoinDescription({ description }: CoinDescriptionProps) {
 
   return (
     <div>
-      <p className="text-sm font-mono text-zinc-400 leading-relaxed">
+      <p className="text-sm font-mono text-zinc-300 leading-relaxed">
         {displayed}
       </p>
       {isLong && (
         <button
+          type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="mt-2 text-xs font-mono font-medium text-emerald-400 hover:text-emerald-300 transition-colors focus:outline-none focus-visible:underline"
+          className="mt-2 text-xs font-mono font-medium text-emerald-400 hover:text-emerald-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1117] rounded"
           aria-expanded={expanded}
         >
           {expanded ? "Show less" : "Read more"}

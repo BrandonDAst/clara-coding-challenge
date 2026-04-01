@@ -67,15 +67,16 @@ export function ErrorMessage({ error, onRetry }: ErrorMessageProps) {
       <h2 className="text-base font-mono font-semibold text-zinc-100 mb-1">
         {isRateLimit ? "API rate limit reached" : "Something went wrong"}
       </h2>
-      <p className="text-sm font-mono text-zinc-400 mb-5 max-w-xs mx-auto">
+      <p className="text-sm font-mono text-zinc-300 mb-5 max-w-xs mx-auto">
         {error.message}
       </p>
       <button
+        type="button"
         onClick={onRetry}
         className="
           inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
           bg-white/10 text-zinc-100 font-mono border border-white/10
-          hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500
+          hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400
           transition-colors duration-150
         "
       >
@@ -102,7 +103,7 @@ export function EmptyState({ query }: EmptyStateProps) {
       <p className="text-sm font-mono font-medium text-zinc-300">
         No results for &ldquo;{query}&rdquo;
       </p>
-      <p className="text-xs font-mono text-zinc-500 mt-1">
+      <p className="text-xs font-mono text-zinc-400 mt-1">
         Try searching by full name or ticker symbol
       </p>
     </div>

@@ -18,8 +18,9 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
   return (
     <tr
       tabIndex={0}
-      role="row"
-      aria-label={`${coin.name}, price ${formatPrice(coin.current_price)}, ${formatPercent(coin.price_change_percentage_24h)} in 24 hours. Press Enter for details.`}
+      role="button"
+      aria-haspopup="dialog"
+      aria-label={`${coin.name}, price ${formatPrice(coin.current_price)}, ${formatPercent(coin.price_change_percentage_24h)} in 24 hours. Press Enter or Space for details.`}
       onClick={handleActivate}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -31,11 +32,11 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
         group border-b border-white/5 cursor-pointer
         transition-colors duration-150
         hover:bg-white/5 focus:bg-white/5
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500/60
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-400
       "
     >
       {/* Rank */}
-      <td className="w-9 px-2 py-3.5 sm:px-4 text-zinc-500 text-sm font-mono tabular-nums">
+      <td className="w-9 px-2 py-3.5 sm:px-4 text-zinc-400 text-sm font-mono tabular-nums">
         {coin.market_cap_rank}
       </td>
 
@@ -54,7 +55,7 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
             <p className="text-sm font-mono font-semibold text-zinc-100 truncate leading-tight">
               {coin.name}
             </p>
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider truncate">
+            <p className="text-xs font-mono text-zinc-400 uppercase tracking-wider truncate">
               {coin.symbol}
             </p>
           </div>

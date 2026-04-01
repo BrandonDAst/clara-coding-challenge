@@ -25,10 +25,12 @@ export function SortHeader({
       className={`px-2 py-3 sm:px-4 text-left text-xs font-mono font-semibold uppercase tracking-widest select-none ${className}`}
     >
       <button
+        type="button"
         onClick={() => onSort(column)}
         className={`
-          inline-flex items-center gap-1.5 transition-colors duration-150
-          ${isActive ? "text-emerald-400" : "text-zinc-500 hover:text-zinc-300"}
+          inline-flex items-center gap-1.5 rounded transition-colors duration-150
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080b12]
+          ${isActive ? "text-emerald-400" : "text-zinc-400 hover:text-zinc-300"}
         `}
         aria-label={`Sort by ${label} ${isActive && isAsc ? "(currently ascending)" : isActive ? "(currently descending)" : ""}`}
       >

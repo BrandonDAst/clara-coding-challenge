@@ -25,7 +25,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
           onChange={setQuery}
           resultCount={filtered.length}
         />
-        <p className="text-xs font-mono text-zinc-500 shrink-0">
+        <p className="text-xs font-mono text-zinc-400 shrink-0">
           {query
             ? `${filtered.length} of ${coins.length} assets`
             : `${coins.length} assets · updates every 60s`}
@@ -43,7 +43,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
             <tr className="bg-white/5 border-b border-white/10">
               <th
                 scope="col"
-                className="w-9 px-2 py-3 sm:px-4 text-left text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500"
+                className="w-9 px-2 py-3 sm:px-4 text-left text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400"
               >
                 #
               </th>
@@ -82,7 +82,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
 
               <th
                 scope="col"
-                className="px-2 py-3 sm:px-4 text-right text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500 hidden md:table-cell"
+                className="px-2 py-3 sm:px-4 text-right text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400 hidden md:table-cell"
               >
                 7d
               </th>
