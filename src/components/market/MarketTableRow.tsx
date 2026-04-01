@@ -1,5 +1,6 @@
 import { formatMarketCap, formatPercent, formatPrice } from "@/lib/formatter";
 import { CoinMarket } from "@/types/coinMarket.type";
+import Image from "next/image";
 import { SparklineChart } from "./SparklineChart";
 
 interface MarketTableRowProps {
@@ -34,25 +35,26 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
       "
     >
       {/* Rank */}
-      <td className="px-4 py-3.5 text-zinc-500 text-sm font-mono tabular-nums">
+      <td className="w-9 px-2 py-3.5 sm:px-4 text-zinc-500 text-sm font-mono tabular-nums">
         {coin.market_cap_rank}
       </td>
 
       {/* Name + Icon */}
-      <td className="px-4 py-3.5">
-        <div className="flex items-center gap-3 min-w-0">
-          <img
+      <td className="min-w-0 max-w-38 px-2 py-3.5 sm:px-4 sm:max-w-none">
+        <div className="flex items-center gap-2 min-w-0 sm:gap-3">
+          <Image
             src={coin.image}
             alt={`${coin.name} logo`}
             width={28}
             height={28}
-            className="rounded-full shrink-0"
+            sizes="28px"
+            className="size-6 shrink-0 rounded-full sm:size-7"
           />
           <div className="min-w-0">
             <p className="text-sm font-mono font-semibold text-zinc-100 truncate leading-tight">
               {coin.name}
             </p>
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
+            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider truncate">
               {coin.symbol}
             </p>
           </div>
@@ -60,12 +62,12 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
       </td>
 
       {/* Price */}
-      <td className="px-4 py-3.5 text-sm font-mono tabular-nums text-zinc-100 text-right">
+      <td className="px-2 py-3.5 sm:px-4 text-sm font-mono tabular-nums text-zinc-100 text-right whitespace-nowrap">
         {formatPrice(coin.current_price)}
       </td>
 
       {/* 24h Change */}
-      <td className="px-4 py-3.5 text-right font-mono">
+      <td className="px-2 py-3.5 sm:px-4 text-right font-mono whitespace-nowrap">
         <span
           className={`
             inline-flex items-center justify-end gap-1 text-sm font-mono tabular-nums font-medium
@@ -80,12 +82,12 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
       </td>
 
       {/* Market Cap */}
-      <td className="px-4 py-3.5 text-sm font-mono tabular-nums text-zinc-300 text-right hidden sm:table-cell">
+      <td className="px-2 py-3.5 sm:px-4 text-sm font-mono tabular-nums text-zinc-300 text-right hidden sm:table-cell whitespace-nowrap">
         {formatMarketCap(coin.market_cap)}
       </td>
 
       {/* Sparkline */}
-      <td className="px-4 py-3.5 text-right hidden md:table-cell">
+      <td className="px-2 py-3.5 sm:px-4 text-right hidden md:table-cell">
         <div className="flex justify-end">
           <SparklineChart
             prices={coin.sparkline_in_7d.price}

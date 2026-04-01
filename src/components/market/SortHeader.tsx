@@ -22,7 +22,7 @@ export function SortHeader({
     <th
       scope="col"
       aria-sort={isActive ? (isAsc ? "ascending" : "descending") : "none"}
-      className={`px-4 py-3 text-left text-xs font-mono font-semibold uppercase tracking-widest select-none ${className}`}
+      className={`px-2 py-3 sm:px-4 text-left text-xs font-mono font-semibold uppercase tracking-widest select-none ${className}`}
     >
       <button
         onClick={() => onSort(column)}

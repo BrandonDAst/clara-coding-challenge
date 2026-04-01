@@ -2,6 +2,7 @@ import { useCoinDetail } from "@/hooks/useCoinDetail";
 import { useMarketChart } from "@/hooks/useMarketChart";
 import { formatDate, formatMarketCap, formatPrice } from "@/lib/formatter";
 import { CoinMarket } from "@/types/coinMarket.type";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { CoinDescription, PriceHistoryChart } from "./CoinDetailSubComponents";
 
@@ -83,11 +84,12 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
           {/* Header */}
           <div className="sticky top-0 z-10 flex items-center justify-between gap-4 px-6 py-4 bg-[#0f1117] border-b border-white/10">
             <div className="flex items-center gap-3 min-w-0">
-              <img
+              <Image
                 src={coin.image}
                 alt={`${coin.name} logo`}
                 width={36}
                 height={36}
+                sizes="36px"
                 className="rounded-full shrink-0"
               />
               <div className="min-w-0">
@@ -97,7 +99,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
                 >
                   {coin.name}
                 </h2>
-                <p className="text-xs text-zinc-500 uppercase tracking-wider">
+                <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
                   {coin.symbol}
                 </p>
               </div>

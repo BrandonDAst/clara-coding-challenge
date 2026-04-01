@@ -36,14 +36,14 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
       <div className="rounded-xl border border-white/10 overflow-hidden overflow-x-auto">
         <table
           role="table"
-          className="w-full min-w-[540px] border-collapse text-sm"
+          className="w-full table-fixed min-w-0 border-collapse text-sm"
           aria-label="Cryptocurrency market overview, sortable by column"
         >
           <thead>
             <tr className="bg-white/5 border-b border-white/10">
               <th
                 scope="col"
-                className="px-4 py-3 text-left text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500 w-12"
+                className="w-9 px-2 py-3 sm:px-4 text-left text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500"
               >
                 #
               </th>
@@ -53,7 +53,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
                 label="Asset"
                 sortState={sort}
                 onSort={toggleSort}
-                className="min-w-[160px]"
+                className="min-w-0 w-[34%] max-w-38 sm:w-auto sm:max-w-none sm:min-w-[140px]"
               />
 
               <SortHeader
@@ -61,7 +61,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
                 label="Price"
                 sortState={sort}
                 onSort={toggleSort}
-                className="text-right"
+                className="text-right whitespace-nowrap w-[26%] sm:w-auto"
               />
 
               <SortHeader
@@ -69,7 +69,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
                 label="24h"
                 sortState={sort}
                 onSort={toggleSort}
-                className="text-right"
+                className="text-right whitespace-nowrap w-[22%] sm:w-auto"
               />
 
               <SortHeader
@@ -82,7 +82,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
 
               <th
                 scope="col"
-                className="px-4 py-3 text-right text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500 hidden md:table-cell"
+                className="px-2 py-3 sm:px-4 text-right text-xs font-mono font-semibold uppercase tracking-widest text-zinc-500 hidden md:table-cell"
               >
                 7d
               </th>
