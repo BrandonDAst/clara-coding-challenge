@@ -132,29 +132,16 @@ export function CoinDescription({ description }: CoinDescriptionProps) {
   }
 
   const isLong = cleaned.length > MAX_LENGTH;
-  const preview = cleaned.slice(0, MAX_LENGTH);
-  const tail = cleaned.slice(MAX_LENGTH);
+  const displayed =
+    expanded || !isLong ? cleaned : cleaned.slice(0, MAX_LENGTH) + "…";
 
   return (
     <div>
       <p className="text-sm font-mono text-zinc-400 leading-relaxed">
-        {preview}
-        {isLong && (
-          <span
-            aria-hidden={!expanded}
-            className="inline-grid align-baseline transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none"
-            style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
-          >
-            <span className="min-h-0 overflow-hidden inline-block max-w-full">
-              {tail}
-            </span>
-          </span>
-        )}
-        {!expanded && isLong && "…"}
+        {displayed}
       </p>
       {isLong && (
         <button
-          type="button"
           onClick={() => setExpanded((v) => !v)}
           className="mt-2 text-xs font-mono font-medium text-emerald-400 hover:text-emerald-300 transition-colors focus:outline-none focus-visible:underline"
           aria-expanded={expanded}
