@@ -1,6 +1,6 @@
 import { ISODateString } from "./coinGecko";
 
-export interface Root {
+export interface CoinDetail {
   id: string;
   symbol: string;
   name: string;
