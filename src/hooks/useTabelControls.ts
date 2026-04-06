@@ -1,6 +1,6 @@
 import { SortableColumn, SortState } from "@/types/coinGecko";
 import { CoinMarket } from "@/types/coinMarket.type";
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // ------------------------------------------------------------
 // useSort — client-side column sorting
@@ -45,14 +45,30 @@ export function useSort(coins: CoinMarket[] | undefined) {
 }
 
 // ------------------------------------------------------------
+// useDebounce — retrasa un valor hasta que deje de cambiar
+// ------------------------------------------------------------
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debounced;
+}
+
+// ------------------------------------------------------------
 // useSearch — real-time filter by name or symbol
 // ------------------------------------------------------------
 
 export function useSearch(coins: CoinMarket[]) {
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 300);
 
   const filtered = useMemo(() => {
-    const normQuery = query.trim().toLowerCase();
+    const normQuery = debouncedQuery.trim().toLowerCase();
     if (!normQuery) return coins;
 
     return coins.filter(
@@ -60,7 +76,7 @@ export function useSearch(coins: CoinMarket[]) {
         coin.name.toLowerCase().includes(normQuery) ||
         coin.symbol.toLowerCase().includes(normQuery),
     );
-  }, [coins, query]);
+  }, [coins, debouncedQuery]);
 
   return { filtered, query, setQuery };
 }
