@@ -2,6 +2,7 @@
 
 import { Currency } from "@/hooks/useMarkets";
 import { formatPrice } from "@/lib/formatter";
+import { useCurrencyStore } from "@/store/useCurrency";
 import { ChartDataPoint } from "@/types/marketChart.type";
 import { useId, useState } from "react";
 import {
@@ -20,7 +21,6 @@ import {
 interface PriceHistoryChartProps {
   data: ChartDataPoint[];
   isLoading: boolean;
-  currency: Currency;
 }
 
 function ChartTooltip({
@@ -44,12 +44,9 @@ function ChartTooltip({
   );
 }
 
-export function PriceHistoryChart({
-  data,
-  isLoading,
-  currency,
-}: PriceHistoryChartProps) {
+export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
   const summaryId = useId();
+  const { currency } = useCurrencyStore();
 
   if (isLoading) {
     return (

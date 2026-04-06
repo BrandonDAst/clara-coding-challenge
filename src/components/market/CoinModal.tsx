@@ -3,8 +3,8 @@
 import { useCoinDetail } from "@/hooks/useCoinDetail";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useMarketChart } from "@/hooks/useMarketChart";
-import { Currency } from "@/hooks/useMarkets";
 import { formatDate, formatMarketCap, formatPrice } from "@/lib/formatter";
+import { useCurrencyStore } from "@/store/useCurrency";
 import { CoinMarket } from "@/types/coinMarket.type";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
@@ -13,18 +13,14 @@ import { CoinDescription, PriceHistoryChart } from "./CoinDetailSubComponents";
 interface CoinDetailModalProps {
   coin: CoinMarket | null;
   onClose: () => void;
-  currency: Currency;
 }
 
-export function CoinDetailModal({
-  coin,
-  onClose,
-  currency,
-}: CoinDetailModalProps) {
+export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
   const isOpen = Boolean(coin);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalPanelRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
+  const { currency } = useCurrencyStore();
 
   const { data: detail, isLoading: detailLoading } = useCoinDetail({
     coinId: coin?.id,
@@ -237,11 +233,7 @@ export function CoinDetailModal({
               <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400 mb-3">
                 Price — last 7 days
               </h3>
-              <PriceHistoryChart
-                data={chartData}
-                isLoading={chartLoading}
-                currency={currency}
-              />
+              <PriceHistoryChart data={chartData} isLoading={chartLoading} />
             </div>
 
             {/* Description */}

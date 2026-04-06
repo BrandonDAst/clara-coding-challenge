@@ -4,18 +4,15 @@ import { CoinDetailModal } from "@/components/market/CoinModal";
 import { MarketTable } from "@/components/market/MarketTable";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { ErrorMessage, SkeletonTable } from "@/components/ui/FeedbackStates";
-import { CURRENCIES, Currency, useMarkets } from "@/hooks/useMarkets";
+import { useMarkets } from "@/hooks/useMarkets";
 import { queryClient } from "@/lib/queryClient";
 import { CoinMarket } from "@/types/coinMarket.type";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
-// ── Inner component: has access to QueryClient context ──────
-
 function Dashboard() {
   const [selectedCoin, setSelectedCoin] = useState<CoinMarket | null>(null);
-  const [currency, setCurrency] = useState<Currency>(CURRENCIES[0]);
-  const { data: coins, isLoading, error, refetch } = useMarkets(currency.code);
+  const { data: coins, isLoading, error, refetch } = useMarkets();
 
   const modalOpen = selectedCoin !== null;
 
@@ -38,7 +35,6 @@ function Dashboard() {
           Skip to main content
         </a>
 
-        {/* Background grid texture */}
         <div
           aria-hidden="true"
           className="fixed inset-0 pointer-events-none opacity-[0.03]"
@@ -50,7 +46,6 @@ function Dashboard() {
         />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          {/* Header */}
           <header className="mb-8">
             <div className="flex items-center gap-3 mb-1">
               <span
@@ -62,45 +57,31 @@ function Dashboard() {
               <h1 className="text-2xl font-mono font-bold tracking-tight text-zinc-100">
                 Clara Market
               </h1>
+              <div className="w-[150px] ml-auto">
+                <CurrencyToggle />
+              </div>
             </div>
             <p className="text-sm font-mono text-zinc-400 ml-8">
               Top 20 cryptocurrencies by market cap
             </p>
-
-            {/* toogle  */}
-            <div className="w-[150px] ml-auto">
-              <CurrencyToggle
-                selectedCurrency={currency}
-                onChange={setCurrency}
-              />
-            </div>
           </header>
 
-          {/* Main content */}
           {isLoading ? (
             <SkeletonTable />
           ) : error ? (
             <ErrorMessage error={error} onRetry={refetch} />
           ) : coins ? (
-            <MarketTable
-              coins={coins}
-              onSelectCoin={setSelectedCoin}
-              currency={currency}
-            />
+            <MarketTable coins={coins} onSelectCoin={setSelectedCoin} />
           ) : null}
         </div>
       </div>
-
       <CoinDetailModal
         coin={selectedCoin}
         onClose={() => setSelectedCoin(null)}
-        currency={currency}
       />
     </main>
   );
 }
-
-// ── Root export: provides QueryClient ───────────────────────
 
 export default function Page() {
   return (
