@@ -68,7 +68,7 @@ function Dashboard() {
             </p>
 
             {/* toogle  */}
-            <div className="w-[200px] ml-auto">
+            <div className="w-[150px] ml-auto">
               <CurrencyToggle
                 selectedCurrency={currency}
                 onChange={setCurrency}

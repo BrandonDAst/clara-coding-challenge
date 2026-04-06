@@ -12,7 +12,7 @@ export const CURRENCIES: Currency[] = [
   { code: "usd", label: "USD", symbol: "$", locale: "en-US" },
   { code: "mxn", label: "MXN", symbol: "$", locale: "es-MX" },
   { code: "eur", label: "EUR", symbol: "€", locale: "de-DE" },
-  { code: "cop", label: "COP", symbol: "$", locale: "es-CO" },
+  // { code: "cop", label: "COP", symbol: "$", locale: "es-CO" },
 ];
 
 const buildMarketsUrl = (currencyCode: string) =>
@@ -23,12 +23,11 @@ const buildMarketsUrl = (currencyCode: string) =>
   "&page=1" +
   "&sparkline=true";
 
-export const marketsQueryKey = (currencyCode: string) =>
-  ["markets", currencyCode] as const;
+export const marketsQueryKey = ["markets"] as const;
 
 export function useMarkets(currencyCode: string = "usd") {
   return useQuery<CoinMarket[], Error>({
-    queryKey: marketsQueryKey(currencyCode),
+    queryKey: marketsQueryKey,
     queryFn: () => coinGeckoFetch<CoinMarket[]>(buildMarketsUrl(currencyCode)),
     refetchInterval: 60_000,
     placeholderData: (prev) => prev,
