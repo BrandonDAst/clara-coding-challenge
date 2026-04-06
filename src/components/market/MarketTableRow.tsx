@@ -1,5 +1,5 @@
-import { Currency } from "@/hooks/useMarkets";
 import { formatMarketCap, formatPercent, formatPrice } from "@/lib/formatter";
+import { useCurrencyStore } from "@/store/useCurrency";
 import { CoinMarket } from "@/types/coinMarket.type";
 import Image from "next/image";
 import { SparklineChart } from "./SparklineChart";
@@ -7,15 +7,11 @@ import { SparklineChart } from "./SparklineChart";
 interface MarketTableRowProps {
   coin: CoinMarket;
   onSelect: (coin: CoinMarket) => void;
-  currency: Currency;
 }
 
-export function MarketTableRow({
-  coin,
-  onSelect,
-  currency,
-}: MarketTableRowProps) {
+export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
   const isPositive = coin.price_change_percentage_24h >= 0;
+  const { currency } = useCurrencyStore();
 
   function handleActivate() {
     onSelect(coin);

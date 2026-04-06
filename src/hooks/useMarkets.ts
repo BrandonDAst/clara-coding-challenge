@@ -1,6 +1,7 @@
 import { coinGeckoFetch } from "@/lib/queryClient";
 import { CoinMarket } from "@/types/coinMarket.type";
 import { useQuery } from "@tanstack/react-query";
+import { useCurrencyStore } from "../store/useCurrency";
 
 export type Currency = {
   code: string;
@@ -8,6 +9,7 @@ export type Currency = {
   symbol: string;
   locale: string;
 };
+
 export const CURRENCIES: Currency[] = [
   { code: "usd", label: "USD", symbol: "$", locale: "en-US" },
   { code: "mxn", label: "MXN", symbol: "$", locale: "es-MX" },
@@ -23,12 +25,12 @@ const buildMarketsUrl = (currencyCode: string) =>
   "&page=1" +
   "&sparkline=true";
 
-export const marketsQueryKey = ["markets"] as const;
+export function useMarkets() {
+  const { currency } = useCurrencyStore();
 
-export function useMarkets(currencyCode: string = "usd") {
   return useQuery<CoinMarket[], Error>({
-    queryKey: marketsQueryKey,
-    queryFn: () => coinGeckoFetch<CoinMarket[]>(buildMarketsUrl(currencyCode)),
+    queryKey: ["markets", currency.code],
+    queryFn: () => coinGeckoFetch<CoinMarket[]>(buildMarketsUrl(currency.code)),
     refetchInterval: 60_000,
     placeholderData: (prev) => prev,
   });
