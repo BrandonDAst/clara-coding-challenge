@@ -2,41 +2,44 @@
 // Formatters — all number/date formatting in one place
 // ============================================================
 
-const USD = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
+import { Currency } from "@/hooks/useMarkets";
 
-const USD_COMPACT = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  notation: "compact",
-  maximumFractionDigits: 2,
-});
+const LOCALE_MAP: Record<Currency, string> = {
+  usd: "en-US",
+  mxn: "es-MX",
+  eur: "de-DE",
+};
 
 /**
  * $45,231.12
  */
-export function formatPrice(value: number): string {
-  // For very small prices (e.g. SHIB), show more decimals
-  if (value < 0.01) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 4,
-      maximumFractionDigits: 8,
-    }).format(value);
-  }
-  return USD.format(value);
+export function formatPrice(value: number, currency: Currency): string {
+  const locale = LOCALE_MAP[currency];
+  const fractionDigits =
+    value < 0.01
+      ? { minimumFractionDigits: 4, maximumFractionDigits: 8 }
+      : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    ...fractionDigits,
+  }).format(value);
 }
 
 /**
  * $1.2T, $340B, $4.5M
  */
-export function formatMarketCap(value: number): string {
-  return USD_COMPACT.format(value);
+/**
+ * $1.2T / $340B MXN / 1,2 Mrd. €
+ */
+export function formatMarketCap(value: number, currency: Currency): string {
+  return new Intl.NumberFormat(LOCALE_MAP[currency], {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    notation: "compact",
+    maximumFractionDigits: 2,
+  }).format(value);
 }
 
 /**

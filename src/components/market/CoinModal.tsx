@@ -3,6 +3,7 @@
 import { useCoinDetail } from "@/hooks/useCoinDetail";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useMarketChart } from "@/hooks/useMarketChart";
+import { Currency } from "@/hooks/useMarkets";
 import { formatDate, formatMarketCap, formatPrice } from "@/lib/formatter";
 import { CoinMarket } from "@/types/coinMarket.type";
 import Image from "next/image";
@@ -12,9 +13,14 @@ import { CoinDescription, PriceHistoryChart } from "./CoinDetailSubComponents";
 interface CoinDetailModalProps {
   coin: CoinMarket | null;
   onClose: () => void;
+  currency: Currency;
 }
 
-export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
+export function CoinDetailModal({
+  coin,
+  onClose,
+  currency,
+}: CoinDetailModalProps) {
   const isOpen = Boolean(coin);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalPanelRef = useRef<HTMLDivElement>(null);
@@ -152,7 +158,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
             {/* Price + 24h change */}
             <div className="flex items-end gap-4 flex-wrap">
               <span className="text-3xl font-bold font-mono tabular-nums text-zinc-100">
-                {formatPrice(coin.current_price)}
+                {formatPrice(coin.current_price, currency)}
               </span>
               <span
                 className={`
@@ -171,26 +177,33 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
               {[
                 {
                   label: "Market Cap",
-                  value: formatMarketCap(coin.market_cap),
+                  value: formatMarketCap(coin.market_cap, currency),
                 },
                 {
                   label: "24h Volume",
                   value: marketData
-                    ? formatMarketCap(marketData.total_volume["usd"])
+                    ? formatMarketCap(
+                        marketData.total_volume[currency],
+                        currency,
+                      )
                     : "—",
                 },
                 {
                   label: "ATH",
-                  value: marketData ? formatPrice(marketData.ath["usd"]) : "—",
+                  value: marketData
+                    ? formatPrice(marketData.ath[currency], currency)
+                    : "—",
                   sub: marketData
-                    ? formatDate(marketData.ath_date["usd"])
+                    ? formatDate(marketData.ath_date[currency])
                     : undefined,
                 },
                 {
                   label: "ATL",
-                  value: marketData ? formatPrice(marketData.atl["usd"]) : "—",
+                  value: marketData
+                    ? formatPrice(marketData.atl[currency], currency)
+                    : "—",
                   sub: marketData
-                    ? formatDate(marketData.atl_date["usd"])
+                    ? formatDate(marketData.atl_date[currency])
                     : undefined,
                 },
               ].map(({ label, value, sub }) => (
