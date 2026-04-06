@@ -4,7 +4,7 @@ import { CoinDetailModal } from "@/components/market/CoinModal";
 import { MarketTable } from "@/components/market/MarketTable";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { ErrorMessage, SkeletonTable } from "@/components/ui/FeedbackStates";
-import { Currency, useMarkets } from "@/hooks/useMarkets";
+import { CURRENCIES, Currency, useMarkets } from "@/hooks/useMarkets";
 import { queryClient } from "@/lib/queryClient";
 import { CoinMarket } from "@/types/coinMarket.type";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -14,8 +14,8 @@ import { useState } from "react";
 
 function Dashboard() {
   const [selectedCoin, setSelectedCoin] = useState<CoinMarket | null>(null);
-  const [currency, setCurrency] = useState<Currency>("usd");
-  const { data: coins, isLoading, error, refetch } = useMarkets(currency);
+  const [currency, setCurrency] = useState<Currency>(CURRENCIES[0]);
+  const { data: coins, isLoading, error, refetch } = useMarkets(currency.code);
 
   const modalOpen = selectedCoin !== null;
 
@@ -69,7 +69,10 @@ function Dashboard() {
 
             {/* toogle  */}
             <div className="w-[200px] ml-auto">
-              <CurrencyToggle value={currency} onChange={setCurrency} />
+              <CurrencyToggle
+                selectedCurrency={currency}
+                onChange={setCurrency}
+              />
             </div>
           </header>
 

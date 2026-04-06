@@ -183,7 +183,7 @@ export function CoinDetailModal({
                   label: "24h Volume",
                   value: marketData
                     ? formatMarketCap(
-                        marketData.total_volume[currency],
+                        marketData.total_volume[currency.code],
                         currency,
                       )
                     : "—",
@@ -191,19 +191,19 @@ export function CoinDetailModal({
                 {
                   label: "ATH",
                   value: marketData
-                    ? formatPrice(marketData.ath[currency], currency)
+                    ? formatPrice(marketData.ath[currency.code], currency)
                     : "—",
                   sub: marketData
-                    ? formatDate(marketData.ath_date[currency])
+                    ? formatDate(marketData.ath_date[currency.code])
                     : undefined,
                 },
                 {
                   label: "ATL",
                   value: marketData
-                    ? formatPrice(marketData.atl[currency], currency)
+                    ? formatPrice(marketData.atl[currency.code], currency)
                     : "—",
                   sub: marketData
-                    ? formatDate(marketData.atl_date[currency])
+                    ? formatDate(marketData.atl_date[currency.code])
                     : undefined,
                 },
               ].map(({ label, value, sub }) => (
@@ -237,7 +237,11 @@ export function CoinDetailModal({
               <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400 mb-3">
                 Price — last 7 days
               </h3>
-              <PriceHistoryChart data={chartData} isLoading={chartLoading} />
+              <PriceHistoryChart
+                data={chartData}
+                isLoading={chartLoading}
+                currency={currency}
+              />
             </div>
 
             {/* Description */}

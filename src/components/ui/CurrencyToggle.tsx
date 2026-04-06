@@ -1,19 +1,16 @@
 "use client";
 
-import { Currency } from "@/hooks/useMarkets";
-
-const CURRENCIES: { value: Currency; label: string; symbol: string }[] = [
-  { value: "usd", label: "USD", symbol: "$" },
-  { value: "mxn", label: "MXN", symbol: "$" },
-  { value: "eur", label: "EUR", symbol: "€" },
-];
+import { CURRENCIES, Currency } from "@/hooks/useMarkets";
 
 interface CurrencyToggleProps {
-  value: Currency;
+  selectedCurrency: Currency;
   onChange: (currency: Currency) => void;
 }
 
-export function CurrencyToggle({ value, onChange }: CurrencyToggleProps) {
+export function CurrencyToggle({
+  selectedCurrency,
+  onChange,
+}: CurrencyToggleProps) {
   return (
     <div
       role="radiogroup"
@@ -21,13 +18,13 @@ export function CurrencyToggle({ value, onChange }: CurrencyToggleProps) {
       className="flex items-center gap-1 rounded-lg border border-zinc-800 bg-zinc-900/60 p-1 backdrop-blur-sm"
     >
       {CURRENCIES.map((currency) => {
-        const isActive = value === currency.value;
+        const isActive = selectedCurrency.code === currency.code;
         return (
           <button
-            key={currency.value}
+            key={currency.code}
             role="radio"
             aria-checked={isActive}
-            onClick={() => onChange(currency.value)}
+            onClick={() => onChange(currency)}
             className={`
               relative px-3 py-1 rounded-md font-mono text-xs font-medium
               transition-all duration-200 focus-visible:outline-none

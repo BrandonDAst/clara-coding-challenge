@@ -4,25 +4,18 @@
 
 import { Currency } from "@/hooks/useMarkets";
 
-const LOCALE_MAP: Record<Currency, string> = {
-  usd: "en-US",
-  mxn: "es-MX",
-  eur: "de-DE",
-};
-
 /**
  * $45,231.12
  */
 export function formatPrice(value: number, currency: Currency): string {
-  const locale = LOCALE_MAP[currency];
   const fractionDigits =
     value < 0.01
       ? { minimumFractionDigits: 4, maximumFractionDigits: 8 }
       : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
-  return new Intl.NumberFormat(locale, {
+  return new Intl.NumberFormat(currency.locale, {
     style: "currency",
-    currency: currency.toUpperCase(),
+    currency: currency.code.toUpperCase(),
     ...fractionDigits,
   }).format(value);
 }
@@ -34,9 +27,9 @@ export function formatPrice(value: number, currency: Currency): string {
  * $1.2T / $340B MXN / 1,2 Mrd. €
  */
 export function formatMarketCap(value: number, currency: Currency): string {
-  return new Intl.NumberFormat(LOCALE_MAP[currency], {
+  return new Intl.NumberFormat(currency.locale, {
     style: "currency",
-    currency: currency.toUpperCase(),
+    currency: currency.code.toUpperCase(),
     notation: "compact",
     maximumFractionDigits: 2,
   }).format(value);
