@@ -2,9 +2,22 @@ import { coinGeckoFetch } from "@/lib/queryClient";
 import { CoinMarket } from "@/types/coinMarket.type";
 import { useQuery } from "@tanstack/react-query";
 
-const MARKETS_URL =
+export type Currency = {
+  code: string;
+  label: string;
+  symbol: string;
+  locale: string;
+};
+export const CURRENCIES: Currency[] = [
+  { code: "usd", label: "USD", symbol: "$", locale: "en-US" },
+  { code: "mxn", label: "MXN", symbol: "$", locale: "es-MX" },
+  { code: "eur", label: "EUR", symbol: "€", locale: "de-DE" },
+  // { code: "cop", label: "COP", symbol: "$", locale: "es-CO" },
+];
+
+const buildMarketsUrl = (currencyCode: string) =>
   "https://api.coingecko.com/api/v3/coins/markets" +
-  "?vs_currency=usd" +
+  `?vs_currency=${currencyCode}` +
   "&order=market_cap_desc" +
   "&per_page=20" +
   "&page=1" +
@@ -12,13 +25,11 @@ const MARKETS_URL =
 
 export const marketsQueryKey = ["markets"] as const;
 
-export function useMarkets() {
+export function useMarkets(currencyCode: string = "usd") {
   return useQuery<CoinMarket[], Error>({
     queryKey: marketsQueryKey,
-    queryFn: () => coinGeckoFetch<CoinMarket[]>(MARKETS_URL),
-    // Auto-refresh every 60 seconds without full page reload
+    queryFn: () => coinGeckoFetch<CoinMarket[]>(buildMarketsUrl(currencyCode)),
     refetchInterval: 60_000,
-    // Keep showing stale data while refetching in background
     placeholderData: (prev) => prev,
   });
 }

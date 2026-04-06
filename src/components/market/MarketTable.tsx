@@ -1,5 +1,6 @@
 // "use client";
 
+import { Currency } from "@/hooks/useMarkets";
 import { useSearch, useSort } from "@/hooks/useTabelControls";
 import { CoinMarket } from "@/types/coinMarket.type";
 import { EmptyState } from "../ui/FeedbackStates";
@@ -10,9 +11,14 @@ import { SortHeader } from "./SortHeader";
 interface MarketTableProps {
   coins: CoinMarket[];
   onSelectCoin: (coin: CoinMarket) => void;
+  currency: Currency;
 }
 
-export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
+export function MarketTable({
+  coins,
+  onSelectCoin,
+  currency,
+}: MarketTableProps) {
   const { sorted, sort, toggleSort } = useSort(coins);
   const { filtered, query, setQuery } = useSearch(sorted);
 
@@ -96,6 +102,7 @@ export function MarketTable({ coins, onSelectCoin }: MarketTableProps) {
                   key={coin.id}
                   coin={coin}
                   onSelect={onSelectCoin}
+                  currency={currency}
                 />
               ))
             ) : (

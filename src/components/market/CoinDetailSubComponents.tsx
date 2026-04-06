@@ -1,5 +1,6 @@
 "use client";
 
+import { Currency } from "@/hooks/useMarkets";
 import { formatPrice } from "@/lib/formatter";
 import { ChartDataPoint } from "@/types/marketChart.type";
 import { useId, useState } from "react";
@@ -19,14 +20,17 @@ import {
 interface PriceHistoryChartProps {
   data: ChartDataPoint[];
   isLoading: boolean;
+  currency: Currency;
 }
 
 function ChartTooltip({
   active,
   payload,
+  currency,
 }: {
   active?: boolean;
   payload?: Array<{ value: number; payload: ChartDataPoint }>;
+  currency: Currency;
 }) {
   if (!active || !payload?.length) return null;
   const point = payload[0];
@@ -34,13 +38,17 @@ function ChartTooltip({
     <div className="rounded-lg border border-white/10 bg-zinc-900/95 backdrop-blur-sm px-3 py-2 shadow-xl text-xs">
       <p className="text-zinc-100">{point.payload.date}</p>
       <p className="font-semibold font-mono text-zinc-100 mt-0.5">
-        {formatPrice(point.value)}
+        {formatPrice(point.value, currency)}
       </p>
     </div>
   );
 }
 
-export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
+export function PriceHistoryChart({
+  data,
+  isLoading,
+  currency,
+}: PriceHistoryChartProps) {
   const summaryId = useId();
 
   if (isLoading) {
@@ -100,7 +108,7 @@ export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
               width={64}
               fontFamily="var(--font-mono)"
             />
-            <Tooltip content={<ChartTooltip />} />
+            <Tooltip content={<ChartTooltip currency={currency} />} />
             <Area
               type="monotone"
               dataKey="price"

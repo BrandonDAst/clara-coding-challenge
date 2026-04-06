@@ -1,3 +1,4 @@
+import { Currency } from "@/hooks/useMarkets";
 import { formatMarketCap, formatPercent, formatPrice } from "@/lib/formatter";
 import { CoinMarket } from "@/types/coinMarket.type";
 import Image from "next/image";
@@ -6,9 +7,14 @@ import { SparklineChart } from "./SparklineChart";
 interface MarketTableRowProps {
   coin: CoinMarket;
   onSelect: (coin: CoinMarket) => void;
+  currency: Currency;
 }
 
-export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
+export function MarketTableRow({
+  coin,
+  onSelect,
+  currency,
+}: MarketTableRowProps) {
   const isPositive = coin.price_change_percentage_24h >= 0;
 
   function handleActivate() {
@@ -20,7 +26,7 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
       tabIndex={0}
       role="button"
       aria-haspopup="dialog"
-      aria-label={`${coin.name}, price ${formatPrice(coin.current_price)}, ${formatPercent(coin.price_change_percentage_24h)} in 24 hours. Press Enter or Space for details.`}
+      aria-label={`${coin.name}, price ${formatPrice(coin.current_price, currency)}, ${formatPercent(coin.price_change_percentage_24h)} in 24 hours. Press Enter or Space for details.`}
       onClick={handleActivate}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -64,7 +70,7 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
 
       {/* Price */}
       <td className="px-2 py-3.5 sm:px-4 text-sm font-mono tabular-nums text-zinc-100 text-right whitespace-nowrap">
-        {formatPrice(coin.current_price)}
+        {formatPrice(coin.current_price, currency)}
       </td>
 
       {/* 24h Change */}
@@ -84,7 +90,7 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
 
       {/* Market Cap */}
       <td className="px-2 py-3.5 sm:px-4 text-sm font-mono tabular-nums text-zinc-300 text-right hidden sm:table-cell whitespace-nowrap">
-        {formatMarketCap(coin.market_cap)}
+        {formatMarketCap(coin.market_cap, currency)}
       </td>
 
       {/* Sparkline */}
