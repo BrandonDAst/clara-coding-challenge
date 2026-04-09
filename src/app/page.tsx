@@ -5,6 +5,7 @@ import { MarketTable } from "@/components/market/MarketTable";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { DaySlider } from "@/components/ui/DaySlider";
 import { ErrorMessage, SkeletonTable } from "@/components/ui/FeedbackStates";
+import { ThemeSelector } from "@/components/ui/ThemeSelector";
 import { useMarkets } from "@/hooks/useMarkets";
 import { queryClient } from "@/lib/queryClient";
 import { CoinMarket } from "@/types/coinMarket.type";
@@ -21,7 +22,7 @@ function Dashboard() {
     <main
       id="main-content"
       tabIndex={-1}
-      className="min-h-screen bg-[#080b12] text-zinc-100 outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080b12]"
+      className="min-h-screen bg-[var(--app-bg)] text-[var(--app-fg)] outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-focus-offset)]"
     >
       <div inert={modalOpen}>
         <a
@@ -29,8 +30,8 @@ function Dashboard() {
           className="
             sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:m-0
             focus:inline-block focus:h-auto focus:w-auto focus:overflow-visible focus:px-4 focus:py-2
-            focus:whitespace-normal focus:rounded-lg focus:bg-[#0f1117] focus:text-sm focus:font-mono
-            focus:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-400
+            focus:whitespace-normal focus:rounded-lg focus:bg-[var(--app-surface)] focus:text-sm focus:font-mono
+            focus:text-[var(--app-fg)] focus:outline-none focus:ring-2 focus:ring-emerald-400
           "
         >
           Skip to main content
@@ -59,6 +60,7 @@ function Dashboard() {
                 Clara Market
               </h1>
               <div className="w-auto ml-auto flex flex-col gap-2">
+                <ThemeSelector />
                 <CurrencyToggle />
                 <DaySlider />
               </div>
