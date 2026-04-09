@@ -67,6 +67,7 @@ export function MarketTableRow({ coin, onSelect }: MarketTableRowProps) {
       {/* Price */}
       <td className="px-2 py-3.5 sm:px-4 text-sm font-mono tabular-nums text-zinc-100 text-right whitespace-nowrap">
         {formatPrice(coin.current_price, currency)}
+        <span className="ml-1 text-xs uppercase text-zinc-400 tracking-wider">{currency?.code ?? ""}</span>
       </td>
 
       {/* 24h Change */}

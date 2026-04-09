@@ -22,7 +22,7 @@ function Dashboard() {
     <main
       id="main-content"
       tabIndex={-1}
-      className="min-h-screen bg-[var(--app-bg)] text-[var(--app-fg)] outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-focus-offset)]"
+      className="min-h-screen bg-[--app-bg] text-[--app-fg] outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[--app-focus-offset]"
     >
       <div inert={modalOpen}>
         <a
@@ -30,8 +30,8 @@ function Dashboard() {
           className="
             sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:m-0
             focus:inline-block focus:h-auto focus:w-auto focus:overflow-visible focus:px-4 focus:py-2
-            focus:whitespace-normal focus:rounded-lg focus:bg-[var(--app-surface)] focus:text-sm focus:font-mono
-            focus:text-[var(--app-fg)] focus:outline-none focus:ring-2 focus:ring-emerald-400
+            focus:whitespace-normal focus:rounded-lg focus:bg-[--app-surface] focus:text-sm focus:font-mono
+            focus:text-[--app-fg] focus:outline-none focus:ring-2 focus:ring-emerald-400
           "
         >
           Skip to main content
