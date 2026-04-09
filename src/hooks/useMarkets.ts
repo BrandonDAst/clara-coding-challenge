@@ -11,9 +11,12 @@ export type Currency = {
 };
 
 export const CURRENCIES: Currency[] = [
-  { code: "usd", label: "USD", symbol: "$", locale: "en-US" },
-  { code: "mxn", label: "MXN", symbol: "$", locale: "es-MX" },
-  { code: "eur", label: "EUR", symbol: "€", locale: "de-DE" },
+  { code: "usd", label: "USD 🇺🇸", symbol: "$", locale: "en-US" },
+  { code: "mxn", label: "MXN 🇲🇽", symbol: "$", locale: "es-MX" },
+  { code: "eur", label: "EUR 🇪🇸", symbol: "€", locale: "de-DE" },
+  // { code: "inr", label: "INR 🇮🇳", symbol: "₹", locale: "en-IN" },
+  // { code: "jpy", label: "JPY 🇯🇵", symbol: "¥", locale: "ja-JP" },
+  // { code: "gbp", label: "GBP 🇬🇧", symbol: "£", locale: "en-GB" },
   // { code: "cop", label: "COP", symbol: "$", locale: "es-CO" },
 ];
 
