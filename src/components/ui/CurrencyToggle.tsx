@@ -10,7 +10,7 @@ export function CurrencyToggle() {
     <div
       role="radiogroup"
       aria-label="Select display currency"
-      className="flex items-center gap-1 rounded-lg border border-zinc-800 bg-zinc-900/60 p-1 backdrop-blur-sm"
+      className="flex flex-row items-stretch gap-1 rounded-lg border border-zinc-800 bg-zinc-900/60 p-1 backdrop-blur-sm"
     >
       {CURRENCIES.map((c) => {
         const isActive = currency.code === c.code;

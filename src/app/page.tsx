@@ -3,6 +3,7 @@
 import { CoinDetailModal } from "@/components/market/CoinModal";
 import { MarketTable } from "@/components/market/MarketTable";
 import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
+import { DaySlider } from "@/components/ui/DaySlider";
 import { ErrorMessage, SkeletonTable } from "@/components/ui/FeedbackStates";
 import { useMarkets } from "@/hooks/useMarkets";
 import { queryClient } from "@/lib/queryClient";
@@ -57,8 +58,9 @@ function Dashboard() {
               <h1 className="text-2xl font-mono font-bold tracking-tight text-zinc-100">
                 Clara Market
               </h1>
-              <div className="w-[150px] ml-auto">
+              <div className="w-auto ml-auto flex flex-col gap-2">
                 <CurrencyToggle />
+                <DaySlider />
               </div>
             </div>
             <p className="text-sm font-mono text-zinc-400 ml-8">

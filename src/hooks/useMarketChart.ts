@@ -1,13 +1,14 @@
 import { coinGeckoFetch } from "@/lib/queryClient";
 import { useCurrencyStore } from "@/store/useCurrency";
+import { useDayRangeStore } from "@/store/useDayRange";
 import { ChartDataPoint, MarketChart } from "@/types/marketChart.type";
 import { useQuery } from "@tanstack/react-query";
 
-function getMarketChartUrl(id: string, currencyCode: string) {
+function getMarketChartUrl(id: string, currencyCode: string, days: number) {
   return (
     `https://api.coingecko.com/api/v3/coins/${id}/market_chart` +
     `?vs_currency=${currencyCode}` +
-    "&days=7"
+    `&days=${days}`
   );
 }
 
@@ -35,19 +36,20 @@ interface UseMarketChartOptions {
 
 export function useMarketChart({ coinId }: UseMarketChartOptions) {
   const { currency } = useCurrencyStore();
+  const { days } = useDayRangeStore();
 
   return useQuery<ChartDataPoint[], Error>({
     queryKey: coinId
-      ? ["coin", coinId, "chart", currency.code]
-      : ["coin", null, "chart", currency.code],
+      ? ["coin", coinId, "chart", currency.code, days]
+      : ["coin", null, "chart", currency.code, days],
     queryFn: async () => {
       const raw = await coinGeckoFetch<MarketChart>(
-        getMarketChartUrl(coinId!, currency.code),
+        getMarketChartUrl(coinId!, currency.code, days),
       );
       return transformChartData(raw, currency.locale);
     },
     enabled: Boolean(coinId),
-    // Chart data for 7 days doesn't change minute-to-minute
+    // Chart data doesn't change minute-to-minute
     staleTime: 300_000, // 5 minutes
   });
 }
