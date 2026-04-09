@@ -2,6 +2,7 @@
 
 import { Currency } from "@/hooks/useMarkets";
 import { formatPrice } from "@/lib/formatter";
+import { useChartDaysStore } from "@/store/useChartDays";
 import { useCurrencyStore } from "@/store/useCurrency";
 import { ChartDataPoint } from "@/types/marketChart.type";
 import { useId, useState } from "react";
@@ -47,6 +48,7 @@ function ChartTooltip({
 export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
   const summaryId = useId();
   const { currency } = useCurrencyStore();
+  const { days } = useChartDaysStore();
 
   if (isLoading) {
     return (
@@ -58,7 +60,7 @@ export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
     );
   }
 
-  // Determine if price trended up or down over 7 days
+  // Determine if price trended up or down over the selected range
   const isPositive =
     data.length >= 2 ? data[data.length - 1].price >= data[0].price : true;
   const color = isPositive ? "#10b981" : "#ef4444";
@@ -66,8 +68,8 @@ export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
   const tickFill = "#a1a1aa";
 
   const trendSummary = isPositive
-    ? "Overall price increased over the last 7 days."
-    : "Overall price decreased over the last 7 days.";
+    ? `Overall price increased over the last ${days} ${days === 1 ? "day" : "days"}.`
+    : `Overall price decreased over the last ${days} ${days === 1 ? "day" : "days"}.`;
 
   return (
     <div role="group" aria-describedby={summaryId}>

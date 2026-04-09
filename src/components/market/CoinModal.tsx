@@ -4,6 +4,7 @@ import { useCoinDetail } from "@/hooks/useCoinDetail";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useMarketChart } from "@/hooks/useMarketChart";
 import { formatDate, formatMarketCap, formatPrice } from "@/lib/formatter";
+import { useChartDaysStore } from "@/store/useChartDays";
 import { useCurrencyStore } from "@/store/useCurrency";
 import { CoinMarket } from "@/types/coinMarket.type";
 import Image from "next/image";
@@ -21,6 +22,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
   const modalPanelRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const { currency } = useCurrencyStore();
+  const { days } = useChartDaysStore();
 
   const { data: detail, isLoading: detailLoading } = useCoinDetail({
     coinId: coin?.id,
@@ -231,7 +233,7 @@ export function CoinDetailModal({ coin, onClose }: CoinDetailModalProps) {
             {/* Price history chart */}
             <div>
               <h3 className="text-xs font-mono font-semibold uppercase tracking-widest text-zinc-400 mb-3">
-                Price — last 7 days
+                Price — last {days} {days === 1 ? "day" : "days"}
               </h3>
               <PriceHistoryChart data={chartData} isLoading={chartLoading} />
             </div>
