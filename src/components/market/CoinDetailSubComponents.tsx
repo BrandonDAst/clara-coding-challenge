@@ -2,8 +2,8 @@
 
 import { Currency } from "@/hooks/useMarkets";
 import { formatPrice } from "@/lib/formatter";
-import { useDayRangeStore } from "@/store/useDayRange";
 import { useCurrencyStore } from "@/store/useCurrency";
+import { useDayRangeStore } from "@/store/useDayRange";
 import { ChartDataPoint } from "@/types/marketChart.type";
 import { useId, useState } from "react";
 import {
@@ -37,7 +37,7 @@ function ChartTooltip({
   const point = payload[0];
   return (
     <div className="rounded-lg border border-white/10 bg-zinc-900/95 backdrop-blur-sm px-3 py-2 shadow-xl text-xs">
-      <p className="text-zinc-100">{point.payload.date}</p>
+      <p className="text-zinc-100 font-mono">{point.payload.date}</p>
       <p className="font-semibold font-mono text-zinc-100 mt-0.5">
         {formatPrice(point.value, currency)}
       </p>
@@ -99,7 +99,7 @@ export function PriceHistoryChart({ data, isLoading }: PriceHistoryChartProps) {
             />
             <YAxis
               domain={["auto", "auto"]}
-              tick={{ fontSize: 8, fill: tickFill }}
+              tick={{ fontSize: 10, fill: tickFill }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v: number) =>

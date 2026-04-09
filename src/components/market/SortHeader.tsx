@@ -29,7 +29,7 @@ export function SortHeader({
         onClick={() => onSort(column)}
         className={`
           inline-flex items-center gap-1.5 rounded transition-colors duration-150
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080b12]
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--app-focus-offset)]
           ${isActive ? "text-emerald-400" : "text-zinc-400 hover:text-zinc-300"}
         `}
         aria-label={`Sort by ${label} ${isActive && isAsc ? "(currently ascending)" : isActive ? "(currently descending)" : ""}`}

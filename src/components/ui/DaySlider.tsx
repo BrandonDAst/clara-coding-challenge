@@ -11,7 +11,7 @@ export function DaySlider() {
         <label htmlFor="day-slider" className="text-xs font-mono text-zinc-400">
           Days to fetch
         </label>
-        <span className="text-xs font-mono text-emerald-400 tabular-nums">
+        <span className="text-xs font-mono font-bold text-emerald-400 tabular-nums">
           {days}
         </span>
       </div>
